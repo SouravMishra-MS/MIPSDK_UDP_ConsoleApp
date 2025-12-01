@@ -1,0 +1,876 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Microsoft.Identity.Client/4.79.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "8.14.0",
+          "System.Diagnostics.DiagnosticSource": "6.0.1",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.Identity.Client.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Identity.Client.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Abstractions/8.14.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.InformationProtection.File/1.17.158": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.InformationProtection.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.InformationProtection.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/netstandard2.0/Microsoft.InformationProtection.File.targets": {}
+        }
+      },
+      "System.Configuration.ConfigurationManager/10.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.EventLog": "10.0.0",
+          "System.Security.Cryptography.ProtectedData": "10.0.0"
+        },
+        "compile": {
+          "lib/net8.0/System.Configuration.ConfigurationManager.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Configuration.ConfigurationManager.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.Diagnostics.DiagnosticSource/6.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Diagnostics.DiagnosticSource.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Diagnostics.DiagnosticSource.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Diagnostics.EventLog/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Diagnostics.EventLog.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Diagnostics.EventLog.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          },
+          "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Security.Cryptography.ProtectedData.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.ProtectedData.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.Identity.Client/4.79.2": {
+      "sha512": "K+oMGiBTWS+pr8ZG8FljF3ArGUUlp5Y5MVTkjeDImPhezNkZwfGNJi5i1jYOfSI3Xbvs/lNi1zD9p3hn3kS4LQ==",
+      "type": "package",
+      "path": "microsoft.identity.client/4.79.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/Microsoft.Identity.Client.dll",
+        "lib/net462/Microsoft.Identity.Client.xml",
+        "lib/net472/Microsoft.Identity.Client.dll",
+        "lib/net472/Microsoft.Identity.Client.xml",
+        "lib/net8.0-android34.0/Microsoft.Identity.Client.aar",
+        "lib/net8.0-android34.0/Microsoft.Identity.Client.dll",
+        "lib/net8.0-android34.0/Microsoft.Identity.Client.xml",
+        "lib/net8.0-ios18.0/Microsoft.Identity.Client.dll",
+        "lib/net8.0-ios18.0/Microsoft.Identity.Client.xml",
+        "lib/net8.0/Microsoft.Identity.Client.dll",
+        "lib/net8.0/Microsoft.Identity.Client.xml",
+        "lib/netstandard2.0/Microsoft.Identity.Client.dll",
+        "lib/netstandard2.0/Microsoft.Identity.Client.xml",
+        "microsoft.identity.client.4.79.2.nupkg.sha512",
+        "microsoft.identity.client.nuspec"
+      ]
+    },
+    "Microsoft.IdentityModel.Abstractions/8.14.0": {
+      "sha512": "iwbCpSjD3ehfTwBhtSNEtKPK0ICun6ov7Ibx6ISNA9bfwIyzI2Siwyi9eJFCJBwxowK9xcA1mj+jBWiigeqgcQ==",
+      "type": "package",
+      "path": "microsoft.identitymodel.abstractions/8.14.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net462/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net472/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net472/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net6.0/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net8.0/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net9.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net9.0/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.xml",
+        "microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
+        "microsoft.identitymodel.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.InformationProtection.File/1.17.158": {
+      "sha512": "xT3ZYrZWqTQiXab8TTKsXmGYFdp168onHCYjIqu9YQquSAbwELhez/B7ndgHJmlXBAiBpUM3Xt2tbvc23A7V4g==",
+      "type": "package",
+      "path": "microsoft.informationprotection.file/1.17.158",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/native/Microsoft.InformationProtection.File.targets",
+        "build/native/bins/debug/amd64/libassuan-0.dll",
+        "build/native/bins/debug/amd64/libbz2-1.dll",
+        "build/native/bins/debug/amd64/libcrypto-3-x64.dll",
+        "build/native/bins/debug/amd64/libffi-8.dll",
+        "build/native/bins/debug/amd64/libgcc_s_seh-1.dll",
+        "build/native/bins/debug/amd64/libgio-2.0-0.dll",
+        "build/native/bins/debug/amd64/libglib-2.0-0.dll",
+        "build/native/bins/debug/amd64/libgmime-3.0-0.dll",
+        "build/native/bins/debug/amd64/libgmodule-2.0-0.dll",
+        "build/native/bins/debug/amd64/libgobject-2.0-0.dll",
+        "build/native/bins/debug/amd64/libgpg-error-0.dll",
+        "build/native/bins/debug/amd64/libgpgme-11.dll",
+        "build/native/bins/debug/amd64/libgsf-1-114.dll",
+        "build/native/bins/debug/amd64/libiconv-2.dll",
+        "build/native/bins/debug/amd64/libidn2-0.dll",
+        "build/native/bins/debug/amd64/libintl-8.dll",
+        "build/native/bins/debug/amd64/liblzma-5.dll",
+        "build/native/bins/debug/amd64/libpcre2-8-0.dll",
+        "build/native/bins/debug/amd64/libssl-3-x64.dll",
+        "build/native/bins/debug/amd64/libunistring-5.dll",
+        "build/native/bins/debug/amd64/libwinpthread-1.dll",
+        "build/native/bins/debug/amd64/libxml2-2.dll",
+        "build/native/bins/debug/amd64/mip_ClientTelemetry.dll",
+        "build/native/bins/debug/amd64/mip_core.dll",
+        "build/native/bins/debug/amd64/mip_file_sdk.dll",
+        "build/native/bins/debug/amd64/mip_protection_sdk.dll",
+        "build/native/bins/debug/amd64/mip_upe_sdk.dll",
+        "build/native/bins/debug/amd64/zlib1.dll",
+        "build/native/bins/debug/arm64/libassuan-0.dll",
+        "build/native/bins/debug/arm64/libbz2-1.dll",
+        "build/native/bins/debug/arm64/libcrypto-3-arm64.dll",
+        "build/native/bins/debug/arm64/libffi-8.dll",
+        "build/native/bins/debug/arm64/libgio-2.0-0.dll",
+        "build/native/bins/debug/arm64/libglib-2.0-0.dll",
+        "build/native/bins/debug/arm64/libgmime-3.0-0.dll",
+        "build/native/bins/debug/arm64/libgmodule-2.0-0.dll",
+        "build/native/bins/debug/arm64/libgobject-2.0-0.dll",
+        "build/native/bins/debug/arm64/libgpg-error-0.dll",
+        "build/native/bins/debug/arm64/libgpgme-11.dll",
+        "build/native/bins/debug/arm64/libgsf-1-114.dll",
+        "build/native/bins/debug/arm64/libiconv-2.dll",
+        "build/native/bins/debug/arm64/libidn2-0.dll",
+        "build/native/bins/debug/arm64/libintl-8.dll",
+        "build/native/bins/debug/arm64/liblzma-5.dll",
+        "build/native/bins/debug/arm64/libpcre2-8-0.dll",
+        "build/native/bins/debug/arm64/libssl-3-arm64.dll",
+        "build/native/bins/debug/arm64/libunistring-5.dll",
+        "build/native/bins/debug/arm64/libxml2-2.dll",
+        "build/native/bins/debug/arm64/mip_ClientTelemetry.dll",
+        "build/native/bins/debug/arm64/mip_core.dll",
+        "build/native/bins/debug/arm64/mip_file_sdk.dll",
+        "build/native/bins/debug/arm64/mip_protection_sdk.dll",
+        "build/native/bins/debug/arm64/mip_upe_sdk.dll",
+        "build/native/bins/debug/arm64/zlib1.dll",
+        "build/native/bins/debug/x86/libassuan-0.dll",
+        "build/native/bins/debug/x86/libbz2-1.dll",
+        "build/native/bins/debug/x86/libcrypto-3.dll",
+        "build/native/bins/debug/x86/libffi-8.dll",
+        "build/native/bins/debug/x86/libgcc_s_dw2-1.dll",
+        "build/native/bins/debug/x86/libgio-2.0-0.dll",
+        "build/native/bins/debug/x86/libglib-2.0-0.dll",
+        "build/native/bins/debug/x86/libgmime-3.0-0.dll",
+        "build/native/bins/debug/x86/libgmodule-2.0-0.dll",
+        "build/native/bins/debug/x86/libgobject-2.0-0.dll",
+        "build/native/bins/debug/x86/libgpg-error-0.dll",
+        "build/native/bins/debug/x86/libgpgme-11.dll",
+        "build/native/bins/debug/x86/libgsf-1-114.dll",
+        "build/native/bins/debug/x86/libiconv-2.dll",
+        "build/native/bins/debug/x86/libidn2-0.dll",
+        "build/native/bins/debug/x86/libintl-8.dll",
+        "build/native/bins/debug/x86/liblzma-5.dll",
+        "build/native/bins/debug/x86/libpcre2-8-0.dll",
+        "build/native/bins/debug/x86/libssl-3.dll",
+        "build/native/bins/debug/x86/libunistring-5.dll",
+        "build/native/bins/debug/x86/libwinpthread-1.dll",
+        "build/native/bins/debug/x86/libxml2-2.dll",
+        "build/native/bins/debug/x86/mip_ClientTelemetry.dll",
+        "build/native/bins/debug/x86/mip_core.dll",
+        "build/native/bins/debug/x86/mip_file_sdk.dll",
+        "build/native/bins/debug/x86/mip_protection_sdk.dll",
+        "build/native/bins/debug/x86/mip_upe_sdk.dll",
+        "build/native/bins/debug/x86/zlib1.dll",
+        "build/native/bins/release/amd64/libassuan-0.dll",
+        "build/native/bins/release/amd64/libbz2-1.dll",
+        "build/native/bins/release/amd64/libcrypto-3-x64.dll",
+        "build/native/bins/release/amd64/libffi-8.dll",
+        "build/native/bins/release/amd64/libgcc_s_seh-1.dll",
+        "build/native/bins/release/amd64/libgio-2.0-0.dll",
+        "build/native/bins/release/amd64/libglib-2.0-0.dll",
+        "build/native/bins/release/amd64/libgmime-3.0-0.dll",
+        "build/native/bins/release/amd64/libgmodule-2.0-0.dll",
+        "build/native/bins/release/amd64/libgobject-2.0-0.dll",
+        "build/native/bins/release/amd64/libgpg-error-0.dll",
+        "build/native/bins/release/amd64/libgpgme-11.dll",
+        "build/native/bins/release/amd64/libgsf-1-114.dll",
+        "build/native/bins/release/amd64/libiconv-2.dll",
+        "build/native/bins/release/amd64/libidn2-0.dll",
+        "build/native/bins/release/amd64/libintl-8.dll",
+        "build/native/bins/release/amd64/liblzma-5.dll",
+        "build/native/bins/release/amd64/libpcre2-8-0.dll",
+        "build/native/bins/release/amd64/libssl-3-x64.dll",
+        "build/native/bins/release/amd64/libunistring-5.dll",
+        "build/native/bins/release/amd64/libwinpthread-1.dll",
+        "build/native/bins/release/amd64/libxml2-2.dll",
+        "build/native/bins/release/amd64/mip_ClientTelemetry.dll",
+        "build/native/bins/release/amd64/mip_core.dll",
+        "build/native/bins/release/amd64/mip_file_sdk.dll",
+        "build/native/bins/release/amd64/mip_protection_sdk.dll",
+        "build/native/bins/release/amd64/mip_upe_sdk.dll",
+        "build/native/bins/release/amd64/zlib1.dll",
+        "build/native/bins/release/arm64/libassuan-0.dll",
+        "build/native/bins/release/arm64/libbz2-1.dll",
+        "build/native/bins/release/arm64/libcrypto-3-arm64.dll",
+        "build/native/bins/release/arm64/libffi-8.dll",
+        "build/native/bins/release/arm64/libgio-2.0-0.dll",
+        "build/native/bins/release/arm64/libglib-2.0-0.dll",
+        "build/native/bins/release/arm64/libgmime-3.0-0.dll",
+        "build/native/bins/release/arm64/libgmodule-2.0-0.dll",
+        "build/native/bins/release/arm64/libgobject-2.0-0.dll",
+        "build/native/bins/release/arm64/libgpg-error-0.dll",
+        "build/native/bins/release/arm64/libgpgme-11.dll",
+        "build/native/bins/release/arm64/libgsf-1-114.dll",
+        "build/native/bins/release/arm64/libiconv-2.dll",
+        "build/native/bins/release/arm64/libidn2-0.dll",
+        "build/native/bins/release/arm64/libintl-8.dll",
+        "build/native/bins/release/arm64/liblzma-5.dll",
+        "build/native/bins/release/arm64/libpcre2-8-0.dll",
+        "build/native/bins/release/arm64/libssl-3-arm64.dll",
+        "build/native/bins/release/arm64/libunistring-5.dll",
+        "build/native/bins/release/arm64/libxml2-2.dll",
+        "build/native/bins/release/arm64/mip_ClientTelemetry.dll",
+        "build/native/bins/release/arm64/mip_core.dll",
+        "build/native/bins/release/arm64/mip_file_sdk.dll",
+        "build/native/bins/release/arm64/mip_protection_sdk.dll",
+        "build/native/bins/release/arm64/mip_upe_sdk.dll",
+        "build/native/bins/release/arm64/zlib1.dll",
+        "build/native/bins/release/x86/libassuan-0.dll",
+        "build/native/bins/release/x86/libbz2-1.dll",
+        "build/native/bins/release/x86/libcrypto-3.dll",
+        "build/native/bins/release/x86/libffi-8.dll",
+        "build/native/bins/release/x86/libgcc_s_dw2-1.dll",
+        "build/native/bins/release/x86/libgio-2.0-0.dll",
+        "build/native/bins/release/x86/libglib-2.0-0.dll",
+        "build/native/bins/release/x86/libgmime-3.0-0.dll",
+        "build/native/bins/release/x86/libgmodule-2.0-0.dll",
+        "build/native/bins/release/x86/libgobject-2.0-0.dll",
+        "build/native/bins/release/x86/libgpg-error-0.dll",
+        "build/native/bins/release/x86/libgpgme-11.dll",
+        "build/native/bins/release/x86/libgsf-1-114.dll",
+        "build/native/bins/release/x86/libiconv-2.dll",
+        "build/native/bins/release/x86/libidn2-0.dll",
+        "build/native/bins/release/x86/libintl-8.dll",
+        "build/native/bins/release/x86/liblzma-5.dll",
+        "build/native/bins/release/x86/libpcre2-8-0.dll",
+        "build/native/bins/release/x86/libssl-3.dll",
+        "build/native/bins/release/x86/libunistring-5.dll",
+        "build/native/bins/release/x86/libwinpthread-1.dll",
+        "build/native/bins/release/x86/libxml2-2.dll",
+        "build/native/bins/release/x86/mip_ClientTelemetry.dll",
+        "build/native/bins/release/x86/mip_core.dll",
+        "build/native/bins/release/x86/mip_file_sdk.dll",
+        "build/native/bins/release/x86/mip_protection_sdk.dll",
+        "build/native/bins/release/x86/mip_upe_sdk.dll",
+        "build/native/bins/release/x86/zlib1.dll",
+        "build/native/include/mip/audit_delegate.h",
+        "build/native/include/mip/audit_event.h",
+        "build/native/include/mip/cloud_discovery_delegate.h",
+        "build/native/include/mip/common_types.h",
+        "build/native/include/mip/delegate_response.h",
+        "build/native/include/mip/diagnostic_configuration.h",
+        "build/native/include/mip/diagnostic_delegate.h",
+        "build/native/include/mip/diagnostic_types.h",
+        "build/native/include/mip/dns_redirection.h",
+        "build/native/include/mip/dynamic_watermark.h",
+        "build/native/include/mip/editable_stream.h",
+        "build/native/include/mip/error.h",
+        "build/native/include/mip/event.h",
+        "build/native/include/mip/event_context.h",
+        "build/native/include/mip/event_property.h",
+        "build/native/include/mip/file/file_engine.h",
+        "build/native/include/mip/file/file_error.h",
+        "build/native/include/mip/file/file_execution_state.h",
+        "build/native/include/mip/file/file_export.h",
+        "build/native/include/mip/file/file_handler.h",
+        "build/native/include/mip/file/file_inspector.h",
+        "build/native/include/mip/file/file_profile.h",
+        "build/native/include/mip/file/file_status.h",
+        "build/native/include/mip/file/labeling_options.h",
+        "build/native/include/mip/file/msg_inspector.h",
+        "build/native/include/mip/file/protection_settings.h",
+        "build/native/include/mip/flighting_feature.h",
+        "build/native/include/mip/http_delegate.h",
+        "build/native/include/mip/http_operation.h",
+        "build/native/include/mip/http_request.h",
+        "build/native/include/mip/http_response.h",
+        "build/native/include/mip/json_delegate.h",
+        "build/native/include/mip/json_document.h",
+        "build/native/include/mip/json_value.h",
+        "build/native/include/mip/log_message_data.h",
+        "build/native/include/mip/logger_delegate.h",
+        "build/native/include/mip/mip_configuration.h",
+        "build/native/include/mip/mip_context.h",
+        "build/native/include/mip/mip_export.h",
+        "build/native/include/mip/mip_namespace.h",
+        "build/native/include/mip/protection/delegation_license.h",
+        "build/native/include/mip/protection/delegation_license_settings.h",
+        "build/native/include/mip/protection/get_template_settings.h",
+        "build/native/include/mip/protection/license_application_data.h",
+        "build/native/include/mip/protection/license_connection_info.h",
+        "build/native/include/mip/protection/license_descriptor.h",
+        "build/native/include/mip/protection/license_info.h",
+        "build/native/include/mip/protection/license_rights_data.h",
+        "build/native/include/mip/protection/parsed_publishing_license.h",
+        "build/native/include/mip/protection/parsed_publishing_license_builder.h",
+        "build/native/include/mip/protection/protection_common_settings.h",
+        "build/native/include/mip/protection/protection_common_types.h",
+        "build/native/include/mip/protection/protection_engine.h",
+        "build/native/include/mip/protection/protection_handler.h",
+        "build/native/include/mip/protection/protection_profile.h",
+        "build/native/include/mip/protection/publishing_use_license_request.h",
+        "build/native/include/mip/protection/rights.h",
+        "build/native/include/mip/protection/roles.h",
+        "build/native/include/mip/protection/template_descriptor.h",
+        "build/native/include/mip/protection/tenant_information.h",
+        "build/native/include/mip/protection_descriptor.h",
+        "build/native/include/mip/protection_descriptor_builder.h",
+        "build/native/include/mip/storage_delegate.h",
+        "build/native/include/mip/storage_table.h",
+        "build/native/include/mip/stream.h",
+        "build/native/include/mip/stream_utils.h",
+        "build/native/include/mip/task_dispatcher_delegate.h",
+        "build/native/include/mip/telemetry_delegate.h",
+        "build/native/include/mip/telemetry_event.h",
+        "build/native/include/mip/upe/action.h",
+        "build/native/include/mip/upe/add_content_footer_action.h",
+        "build/native/include/mip/upe/add_content_header_action.h",
+        "build/native/include/mip/upe/add_dynamic_watermark_action.h",
+        "build/native/include/mip/upe/add_watermark_action.h",
+        "build/native/include/mip/upe/apply_label_action.h",
+        "build/native/include/mip/upe/classification_request.h",
+        "build/native/include/mip/upe/classification_result.h",
+        "build/native/include/mip/upe/content_label.h",
+        "build/native/include/mip/upe/custom_action.h",
+        "build/native/include/mip/upe/detailed_classification_result.h",
+        "build/native/include/mip/upe/execution_state.h",
+        "build/native/include/mip/upe/justify_action.h",
+        "build/native/include/mip/upe/label.h",
+        "build/native/include/mip/upe/metadata_action.h",
+        "build/native/include/mip/upe/metadata_entry.h",
+        "build/native/include/mip/upe/metadata_version.h",
+        "build/native/include/mip/upe/policy_engine.h",
+        "build/native/include/mip/upe/policy_handler.h",
+        "build/native/include/mip/upe/policy_profile.h",
+        "build/native/include/mip/upe/protect_adhoc_action.h",
+        "build/native/include/mip/upe/protect_adhoc_dk_action.h",
+        "build/native/include/mip/upe/protect_by_encrypt_only_action.h",
+        "build/native/include/mip/upe/protect_by_template_action.h",
+        "build/native/include/mip/upe/protect_do_not_forward_action.h",
+        "build/native/include/mip/upe/protect_do_not_forward_dk_action.h",
+        "build/native/include/mip/upe/recommend_label_action.h",
+        "build/native/include/mip/upe/remove_content_footer_action.h",
+        "build/native/include/mip/upe/remove_content_header_action.h",
+        "build/native/include/mip/upe/remove_dynamic_watermark_action.h",
+        "build/native/include/mip/upe/remove_protection_action.h",
+        "build/native/include/mip/upe/remove_watermark_action.h",
+        "build/native/include/mip/upe/sensitivity_types_rule_package.h",
+        "build/native/include/mip/user_rights.h",
+        "build/native/include/mip/user_roles.h",
+        "build/native/include/mip/version.h",
+        "build/native/include/mip/version.inc",
+        "build/native/include/mip/xml_delegate.h",
+        "build/native/include/mip/xml_document.h",
+        "build/native/include/mip/xml_node.h",
+        "build/native/include/mip/xml_reader.h",
+        "build/native/include/mip_cc/application_info_cc.h",
+        "build/native/include/mip_cc/auth_callback_cc.h",
+        "build/native/include/mip_cc/common_types_cc.h",
+        "build/native/include/mip_cc/consent_callback_cc.h",
+        "build/native/include/mip_cc/dictionary_cc.h",
+        "build/native/include/mip_cc/dynamic_watermark_cc.h",
+        "build/native/include/mip_cc/error_cc.h",
+        "build/native/include/mip_cc/flighting_feature_cc.h",
+        "build/native/include/mip_cc/http_delegate_cc.h",
+        "build/native/include/mip_cc/identity_cc.h",
+        "build/native/include/mip_cc/logger_delegate_cc.h",
+        "build/native/include/mip_cc/mip_context_cc.h",
+        "build/native/include/mip_cc/mip_macros_cc.h",
+        "build/native/include/mip_cc/protection/delegation_license_cc.h",
+        "build/native/include/mip_cc/protection/license_info_cc.h",
+        "build/native/include/mip_cc/protection/protection_crypto_types_cc.h",
+        "build/native/include/mip_cc/protection/protection_engine_cc.h",
+        "build/native/include/mip_cc/protection/protection_handler_cc.h",
+        "build/native/include/mip_cc/protection/protection_profile_cc.h",
+        "build/native/include/mip_cc/protection/template_descriptor_cc.h",
+        "build/native/include/mip_cc/protection/user_rights_roles_cc.h",
+        "build/native/include/mip_cc/protection_descriptor_builder_cc.h",
+        "build/native/include/mip_cc/protection_descriptor_cc.h",
+        "build/native/include/mip_cc/result_cc.h",
+        "build/native/include/mip_cc/stream_cc.h",
+        "build/native/include/mip_cc/string_list_cc.h",
+        "build/native/include/mip_cc/task_dispatcher_delegate_cc.h",
+        "build/native/include/mip_cc/telemetry_configuration_cc.h",
+        "build/native/include/mip_cc/upe/action_cc.h",
+        "build/native/include/mip_cc/upe/action_result_cc.h",
+        "build/native/include/mip_cc/upe/add_content_footer_action_cc.h",
+        "build/native/include/mip_cc/upe/add_content_header_action_cc.h",
+        "build/native/include/mip_cc/upe/add_watermark_action_cc.h",
+        "build/native/include/mip_cc/upe/application_action_state_cc.h",
+        "build/native/include/mip_cc/upe/content_label_cc.h",
+        "build/native/include/mip_cc/upe/custom_action_cc.h",
+        "build/native/include/mip_cc/upe/document_state_cc.h",
+        "build/native/include/mip_cc/upe/justify_action_cc.h",
+        "build/native/include/mip_cc/upe/label_cc.h",
+        "build/native/include/mip_cc/upe/metadata_action_cc.h",
+        "build/native/include/mip_cc/upe/metadata_dictionary_cc.h",
+        "build/native/include/mip_cc/upe/policy_engine_cc.h",
+        "build/native/include/mip_cc/upe/policy_handler_cc.h",
+        "build/native/include/mip_cc/upe/policy_profile_cc.h",
+        "build/native/include/mip_cc/upe/protect_adhoc_action_cc.h",
+        "build/native/include/mip_cc/upe/protect_adhoc_dk_action_cc.h",
+        "build/native/include/mip_cc/upe/protect_by_encrypt_only_action_cc.h",
+        "build/native/include/mip_cc/upe/protect_by_template_action_cc.h",
+        "build/native/include/mip_cc/upe/protect_do_not_forward_action_cc.h",
+        "build/native/include/mip_cc/upe/protect_do_not_forward_dk_action_cc.h",
+        "build/native/include/mip_cc/upe/remove_content_footer_action_cc.h",
+        "build/native/include/mip_cc/upe/remove_content_header_action_cc.h",
+        "build/native/include/mip_cc/upe/remove_protection_action_cc.h",
+        "build/native/include/mip_cc/upe/remove_watermark_action_cc.h",
+        "build/native/include/mip_cc/upe/sensitivity_type_cc.h",
+        "build/native/lib/debug/amd64/mip_file_sdk.lib",
+        "build/native/lib/debug/amd64/mip_protection_sdk.lib",
+        "build/native/lib/debug/amd64/mip_upe_sdk.lib",
+        "build/native/lib/debug/arm64/mip_file_sdk.lib",
+        "build/native/lib/debug/arm64/mip_protection_sdk.lib",
+        "build/native/lib/debug/arm64/mip_upe_sdk.lib",
+        "build/native/lib/debug/x86/mip_file_sdk.lib",
+        "build/native/lib/debug/x86/mip_protection_sdk.lib",
+        "build/native/lib/debug/x86/mip_upe_sdk.lib",
+        "build/native/lib/release/amd64/mip_file_sdk.lib",
+        "build/native/lib/release/amd64/mip_protection_sdk.lib",
+        "build/native/lib/release/amd64/mip_upe_sdk.lib",
+        "build/native/lib/release/arm64/mip_file_sdk.lib",
+        "build/native/lib/release/arm64/mip_protection_sdk.lib",
+        "build/native/lib/release/arm64/mip_upe_sdk.lib",
+        "build/native/lib/release/x86/mip_file_sdk.lib",
+        "build/native/lib/release/x86/mip_protection_sdk.lib",
+        "build/native/lib/release/x86/mip_upe_sdk.lib",
+        "build/net40/Microsoft.InformationProtection.File.targets",
+        "build/netstandard2.0/Microsoft.InformationProtection.File.targets",
+        "dotnet/win7-x64/native/debug/mip_dotnet.dll",
+        "dotnet/win7-x64/native/release/mip_dotnet.dll",
+        "dotnet/win7-x86/native/debug/mip_dotnet.dll",
+        "dotnet/win7-x86/native/release/mip_dotnet.dll",
+        "icon.png",
+        "lib/LICENSE.txt",
+        "lib/LicenseTerms.rtf",
+        "lib/ThirdPartyDependencyVersions-arm64.txt",
+        "lib/ThirdPartyDependencyVersions-x64.txt",
+        "lib/ThirdPartyDependencyVersions-x86.txt",
+        "lib/ThirdPartyNotice.txt",
+        "lib/net40/Microsoft.InformationProtection.dll",
+        "lib/net40/Microsoft.InformationProtection.xml",
+        "lib/netstandard2.0/Microsoft.InformationProtection.dll",
+        "lib/netstandard2.0/Microsoft.InformationProtection.xml",
+        "lib/readme.md",
+        "lib/redist.txt",
+        "lib/version.txt",
+        "microsoft.informationprotection.file.1.17.158.nupkg.sha512",
+        "microsoft.informationprotection.file.nuspec"
+      ]
+    },
+    "System.Configuration.ConfigurationManager/10.0.0": {
+      "sha512": "0B+BzJ6pPMrRzJrVsttKf9MfDj6Syw9xoY+agcS9VssYQali1446+jTf5v1K94AMFUBxLXqDZlaTjO5edaI3jA==",
+      "type": "package",
+      "path": "system.configuration.configurationmanager/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Configuration.ConfigurationManager.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Configuration.ConfigurationManager.targets",
+        "lib/net10.0/System.Configuration.ConfigurationManager.dll",
+        "lib/net10.0/System.Configuration.ConfigurationManager.xml",
+        "lib/net462/System.Configuration.ConfigurationManager.dll",
+        "lib/net462/System.Configuration.ConfigurationManager.xml",
+        "lib/net8.0/System.Configuration.ConfigurationManager.dll",
+        "lib/net8.0/System.Configuration.ConfigurationManager.xml",
+        "lib/net9.0/System.Configuration.ConfigurationManager.dll",
+        "lib/net9.0/System.Configuration.ConfigurationManager.xml",
+        "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll",
+        "lib/netstandard2.0/System.Configuration.ConfigurationManager.xml",
+        "system.configuration.configurationmanager.10.0.0.nupkg.sha512",
+        "system.configuration.configurationmanager.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Diagnostics.DiagnosticSource/6.0.1": {
+      "sha512": "KiLYDu2k2J82Q9BJpWiuQqCkFjRBWVq4jDzKKWawVi9KWzyD0XG3cmfX0vqTQlL14Wi9EufJrbL0+KCLTbqWiQ==",
+      "type": "package",
+      "path": "system.diagnostics.diagnosticsource/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Diagnostics.DiagnosticSource.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net461/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net5.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net5.0/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net6.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net6.0/System.Diagnostics.DiagnosticSource.xml",
+        "lib/netstandard2.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/netstandard2.0/System.Diagnostics.DiagnosticSource.xml",
+        "system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
+        "system.diagnostics.diagnosticsource.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Diagnostics.EventLog/10.0.0": {
+      "sha512": "uaFRda9NjtbJRkdx311eXlAA3n2em7223c1A8d1VWyl+4FL9vkG7y2lpPfBU9HYdj/9KgdRNdn1vFK8ZYCYT/A==",
+      "type": "package",
+      "path": "system.diagnostics.eventlog/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Diagnostics.EventLog.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Diagnostics.EventLog.targets",
+        "lib/net10.0/System.Diagnostics.EventLog.dll",
+        "lib/net10.0/System.Diagnostics.EventLog.xml",
+        "lib/net462/System.Diagnostics.EventLog.dll",
+        "lib/net462/System.Diagnostics.EventLog.xml",
+        "lib/net8.0/System.Diagnostics.EventLog.dll",
+        "lib/net8.0/System.Diagnostics.EventLog.xml",
+        "lib/net9.0/System.Diagnostics.EventLog.dll",
+        "lib/net9.0/System.Diagnostics.EventLog.xml",
+        "lib/netstandard2.0/System.Diagnostics.EventLog.dll",
+        "lib/netstandard2.0/System.Diagnostics.EventLog.xml",
+        "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.Messages.dll",
+        "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.dll",
+        "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.xml",
+        "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll",
+        "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll",
+        "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.xml",
+        "runtimes/win/lib/net9.0/System.Diagnostics.EventLog.Messages.dll",
+        "runtimes/win/lib/net9.0/System.Diagnostics.EventLog.dll",
+        "runtimes/win/lib/net9.0/System.Diagnostics.EventLog.xml",
+        "system.diagnostics.eventlog.10.0.0.nupkg.sha512",
+        "system.diagnostics.eventlog.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Security.Cryptography.ProtectedData/10.0.0": {
+      "sha512": "qy6C3gQRTrfhFfuiIYU1jNwWfFdJpBVo1BARW7jgMm1zTEm3LRzLLyOLJGaAuKE+nZCGkEP71y4rj9NWjqLGdQ==",
+      "type": "package",
+      "path": "system.security.cryptography.protecteddata/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Security.Cryptography.ProtectedData.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Security.Cryptography.ProtectedData.targets",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net10.0/System.Security.Cryptography.ProtectedData.dll",
+        "lib/net10.0/System.Security.Cryptography.ProtectedData.xml",
+        "lib/net462/System.Security.Cryptography.ProtectedData.dll",
+        "lib/net462/System.Security.Cryptography.ProtectedData.xml",
+        "lib/net8.0/System.Security.Cryptography.ProtectedData.dll",
+        "lib/net8.0/System.Security.Cryptography.ProtectedData.xml",
+        "lib/net9.0/System.Security.Cryptography.ProtectedData.dll",
+        "lib/net9.0/System.Security.Cryptography.ProtectedData.xml",
+        "lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll",
+        "lib/netstandard2.0/System.Security.Cryptography.ProtectedData.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "system.security.cryptography.protecteddata.10.0.0.nupkg.sha512",
+        "system.security.cryptography.protecteddata.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.ValueTuple/4.5.0": {
+      "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/uap10.0.16299/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/uap10.0.16299/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.5.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Microsoft.Identity.Client >= 4.79.2",
+      "Microsoft.InformationProtection.File >= 1.17.158",
+      "System.Configuration.ConfigurationManager >= 10.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\soumi\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\MIPSDK_UDP_ConsoleApp.csproj",
+      "projectName": "MIPSDK_UDP_ConsoleApp",
+      "projectPath": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\MIPSDK_UDP_ConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\soumi\\.nuget\\packages\\",
+      "outputPath": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\soumi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "dependencies": {
+          "Microsoft.Identity.Client": {
+            "target": "Package",
+            "version": "[4.79.2, )"
+          },
+          "Microsoft.InformationProtection.File": {
+            "target": "Package",
+            "version": "[1.17.158, )"
+          },
+          "System.Configuration.ConfigurationManager": {
+            "target": "Package",
+            "version": "[10.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

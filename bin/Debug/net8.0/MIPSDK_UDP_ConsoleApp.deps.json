@@ -1,0 +1,169 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "MIPSDK_UDP_ConsoleApp/1.0.0": {
+        "dependencies": {
+          "Microsoft.Identity.Client": "4.79.2",
+          "Microsoft.InformationProtection.File": "1.17.158",
+          "System.Configuration.ConfigurationManager": "10.0.0"
+        },
+        "runtime": {
+          "MIPSDK_UDP_ConsoleApp.dll": {}
+        }
+      },
+      "Microsoft.Identity.Client/4.79.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "8.14.0",
+          "System.Diagnostics.DiagnosticSource": "6.0.1",
+          "System.ValueTuple": "4.5.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Identity.Client.dll": {
+            "assemblyVersion": "4.79.2.0",
+            "fileVersion": "4.79.2.0"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Abstractions/8.14.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "assemblyVersion": "8.14.0.0",
+            "fileVersion": "8.14.0.60815"
+          }
+        }
+      },
+      "Microsoft.InformationProtection.File/1.17.158": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.InformationProtection.dll": {
+            "assemblyVersion": "1.17.158.0",
+            "fileVersion": "1.17.158.0"
+          }
+        }
+      },
+      "System.Configuration.ConfigurationManager/10.0.0": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "10.0.0",
+          "System.Security.Cryptography.ProtectedData": "10.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "System.Diagnostics.DiagnosticSource/6.0.1": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        }
+      },
+      "System.Diagnostics.EventLog/10.0.0": {
+        "runtime": {
+          "lib/net8.0/System.Diagnostics.EventLog.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
+      "System.Security.Cryptography.ProtectedData/10.0.0": {
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {}
+    }
+  },
+  "libraries": {
+    "MIPSDK_UDP_ConsoleApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Identity.Client/4.79.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-K+oMGiBTWS+pr8ZG8FljF3ArGUUlp5Y5MVTkjeDImPhezNkZwfGNJi5i1jYOfSI3Xbvs/lNi1zD9p3hn3kS4LQ==",
+      "path": "microsoft.identity.client/4.79.2",
+      "hashPath": "microsoft.identity.client.4.79.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Abstractions/8.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iwbCpSjD3ehfTwBhtSNEtKPK0ICun6ov7Ibx6ISNA9bfwIyzI2Siwyi9eJFCJBwxowK9xcA1mj+jBWiigeqgcQ==",
+      "path": "microsoft.identitymodel.abstractions/8.14.0",
+      "hashPath": "microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512"
+    },
+    "Microsoft.InformationProtection.File/1.17.158": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xT3ZYrZWqTQiXab8TTKsXmGYFdp168onHCYjIqu9YQquSAbwELhez/B7ndgHJmlXBAiBpUM3Xt2tbvc23A7V4g==",
+      "path": "microsoft.informationprotection.file/1.17.158",
+      "hashPath": "microsoft.informationprotection.file.1.17.158.nupkg.sha512"
+    },
+    "System.Configuration.ConfigurationManager/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0B+BzJ6pPMrRzJrVsttKf9MfDj6Syw9xoY+agcS9VssYQali1446+jTf5v1K94AMFUBxLXqDZlaTjO5edaI3jA==",
+      "path": "system.configuration.configurationmanager/10.0.0",
+      "hashPath": "system.configuration.configurationmanager.10.0.0.nupkg.sha512"
+    },
+    "System.Diagnostics.DiagnosticSource/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KiLYDu2k2J82Q9BJpWiuQqCkFjRBWVq4jDzKKWawVi9KWzyD0XG3cmfX0vqTQlL14Wi9EufJrbL0+KCLTbqWiQ==",
+      "path": "system.diagnostics.diagnosticsource/6.0.1",
+      "hashPath": "system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512"
+    },
+    "System.Diagnostics.EventLog/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uaFRda9NjtbJRkdx311eXlAA3n2em7223c1A8d1VWyl+4FL9vkG7y2lpPfBU9HYdj/9KgdRNdn1vFK8ZYCYT/A==",
+      "path": "system.diagnostics.eventlog/10.0.0",
+      "hashPath": "system.diagnostics.eventlog.10.0.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qy6C3gQRTrfhFfuiIYU1jNwWfFdJpBVo1BARW7jgMm1zTEm3LRzLLyOLJGaAuKE+nZCGkEP71y4rj9NWjqLGdQ==",
+      "path": "system.security.cryptography.protecteddata/10.0.0",
+      "hashPath": "system.security.cryptography.protecteddata.10.0.0.nupkg.sha512"
+    },
+    "System.ValueTuple/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "path": "system.valuetuple/4.5.0",
+      "hashPath": "system.valuetuple.4.5.0.nupkg.sha512"
+    }
+  }
+}

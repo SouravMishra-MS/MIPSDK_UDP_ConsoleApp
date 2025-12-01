@@ -1,0 +1,17 @@
+﻿using Microsoft.InformationProtection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MIPSDK_UDP_ConsoleApp.Services
+{
+    internal class ConsentDelegateImpl: IConsentDelegate
+    {
+        public Consent GetUserConsent(string url)
+        {
+            return Consent.Accept;
+        }
+    }
+}

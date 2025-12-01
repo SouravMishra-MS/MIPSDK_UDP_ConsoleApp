@@ -1,0 +1,762 @@
+﻿using Microsoft.InformationProtection;
+using Microsoft.InformationProtection.File;
+using Microsoft.InformationProtection.Protection;
+using MIPSDK_UDP_ConsoleApp.Services;
+using System.Collections;
+using System.Configuration;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+using System.Threading.Tasks;
+
+namespace MIPSDK_UDP_ConsoleApp
+{
+    class Program
+    {
+
+        private static IFileHandler? handler;
+        private static IFileEngine? fileEngine;
+        private static IProtectionEngine? protectionEngine;
+        private static MipContext? mipContext;
+        static async Task Main(string[] args)
+        {
+            // Initialize MSAL
+            AuthService.InitializeMSAL();
+            var username = await AuthService.SignInUserAndAccountUsingMSAL(new string[] { "user.read" });
+            Console.WriteLine($"Signed in user: {username.Username}\n");
+            var currentUserUpn = username.Username;
+
+            // Initialize Wrapper for File SDK
+            MIP.Initialize(MipComponent.File);
+
+            // Application Info
+            ApplicationInfo appInfo = new ApplicationInfo()
+            {
+                ApplicationId = ConfigurationManager.AppSettings.Get("ClientId"),
+                ApplicationName = ConfigurationManager.AppSettings.Get("app:Name"),
+                ApplicationVersion = ConfigurationManager.AppSettings.Get("app:Version")
+            };
+
+
+            // Instantiate AuthDelegateImpl Object
+            AuthDelegateImpl authDelegate = new AuthDelegateImpl(appInfo);
+
+            // Create MIP-Configuration Object
+            MipConfiguration mipConfig = new MipConfiguration(
+                appInfo,
+                "mip_data",
+                LogLevel.Trace,
+                false,
+                CacheStorageType.OnDiskEncrypted
+            );
+
+            // Create MIP-Context using MIP Configuration
+            mipContext = MIP.CreateMipContext(mipConfig);
+
+            // Initialize and instantiate File-Profile
+            var profileSettings = new FileProfileSettings(mipContext, CacheStorageType.OnDiskEncrypted, new ConsentDelegateImpl());
+            var fileProfile = await MIP.LoadFileProfileAsync(profileSettings);
+
+            // Initialize and instantiate Protection-Profile
+            var protectionProfileSettings = new ProtectionProfileSettings(mipContext, CacheStorageType.InMemory, new ConsentDelegateImpl());
+            var protectionProfile = await MIP.LoadProtectionProfileAsync(protectionProfileSettings);
+
+            // Create fileEngineSettings object, then use that to add an engine to the profile.
+            var engineSettings = new FileEngineSettings(username.Username + "1", authDelegate, "", "en-us");
+            engineSettings.Identity = new Identity(username.Username + "1");
+            fileEngine = await fileProfile.AddEngineAsync(engineSettings);
+
+            // Create protectionEngineSettings object, then use that to add an engine to the profile.
+            var engineSettingsProtection = new ProtectionEngineSettings(username.Username, authDelegate, "", "en-us");
+            engineSettingsProtection.Identity = new Identity(username.Username + "1");
+            protectionEngine = await protectionProfile.AddEngineAsync(engineSettingsProtection);
+
+            // Show menu options
+            await ShowMenuAsync(fileEngine, protectionEngine);
+        }
+
+        // Function to display menu and handle user choice
+        static async Task ShowMenuAsync(IFileEngine fileEngine, IProtectionEngine protectionEngine)
+        {
+            Console.WriteLine("\nSelect an option:");
+            Console.WriteLine("1. Show Available Labels ");
+            Console.WriteLine("2. Apply Labels");
+            Console.WriteLine("3. Apply Protection (Custom Permissions)");
+            Console.WriteLine("4. Revoke Protection");
+            Console.WriteLine("5. Get File Status");
+            Console.WriteLine("Enter your choice: ");
+
+            var choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    ShowAvailableLabels(fileEngine, protectionEngine);
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+                case "2":
+                    ApplyLabels(fileEngine);
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+                case "3":
+                    await ApplyProtectionAndPermissionsAsync(fileEngine);
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+                case "4":
+                    await RevokeProtectionAsync(fileEngine);
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+                case "5":
+                    await GetFileStatusAsync(fileEngine);
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.\n");
+                    await ShowMenuAsync(fileEngine, protectionEngine);
+                    break;
+            }
+        }
+
+
+        private static string? TryGetTemplateIdFromLabel(object label)
+        {
+            IEnumerable? actions = null;
+            var getActions = label.GetType().GetMethod("GetActions") ?? label.GetType().GetMethod("GetActionSet");
+            if (getActions != null)
+            {
+                var parameters = getActions.GetParameters();
+                object? result = null;
+
+                if (parameters.Length == 1 && parameters[0].ParameterType.IsEnum &&
+                    parameters[0].ParameterType.Name.Contains("AssignmentMethod", StringComparison.OrdinalIgnoreCase))
+                {
+                    var enumType = parameters[0].ParameterType;
+                    var standard = Enum.Parse(enumType, "Standard", ignoreCase: true);
+                    result = getActions.Invoke(label, new object[] { standard });
+                }
+                else
+                {
+                    result = getActions.Invoke(label, null);
+                }
+                actions = result as IEnumerable;
+            }
+
+            // Fallback to property-based access
+            actions ??= (label.GetType().GetProperty("Actions") ?? label.GetType().GetProperty("ActionSet"))
+                            ?.GetValue(label) as IEnumerable;
+            if (actions == null) return null;
+
+            foreach (var action in actions)
+            {
+                var typeName = action.GetType().Name; // e.g., ProtectByTemplateAction, ProtectionAction, EncryptAction
+                var typeProp = action.GetType().GetProperty("Type") ?? action.GetType().GetProperty("ActionType");
+                var typeVal = typeProp?.GetValue(action)?.ToString() ?? typeName;
+
+                // Only consider protection actions
+                if (!typeVal.Contains("Protect", StringComparison.OrdinalIgnoreCase) &&
+                    !typeVal.Contains("Protection", StringComparison.OrdinalIgnoreCase) &&
+                    !typeName.Contains("Protect", StringComparison.OrdinalIgnoreCase) &&
+                    !typeName.Contains("Encrypt", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                // Common shapes
+                var templateId = action.GetType().GetProperty("TemplateId")?.GetValue(action)?.ToString();
+                if (!string.IsNullOrWhiteSpace(templateId)) return templateId;
+
+                // Some actions carry a ProtectionDescriptor/Descriptor with TemplateId
+                var desc = action.GetType().GetProperty("ProtectionDescriptor")?.GetValue(action)
+                          ?? action.GetType().GetProperty("Descriptor")?.GetValue(action);
+                var fromDescriptor = desc?.GetType().GetProperty("TemplateId")?.GetValue(desc)?.ToString();
+                if (!string.IsNullOrWhiteSpace(fromDescriptor)) return fromDescriptor;
+
+                // Some actions expose TemplateGuid/TemplateIdGuid
+                var templateGuid = action.GetType().GetProperty("TemplateGuid")?.GetValue(action)?.ToString()
+                                ?? action.GetType().GetProperty("TemplateIdGuid")?.GetValue(action)?.ToString();
+                if (!string.IsNullOrWhiteSpace(templateGuid)) return templateGuid;
+            }
+
+            return null;
+        }
+
+
+        private static void ShowAvailableLabels(IFileEngine fileEngine, IProtectionEngine protectionEngine)
+        {
+            try
+            {
+                // Build template lookup only if protectionEngine is available
+                var templateById = protectionEngine != null
+                    ? protectionEngine.GetTemplates().ToDictionary(t => t.Id, t => t)
+                    : new Dictionary<string, TemplateDescriptor>();
+
+                if (protectionEngine == null)
+                {
+                    Console.WriteLine("(Protection engine not initialized. Template names will be omitted.)");
+                }
+
+                Console.WriteLine("\nAvailable labels:");
+                var labels = fileEngine.SensitivityLabels;
+                foreach (var label in labels)
+                {
+                    Console.Write("Label ID: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(label.Id);
+                    Console.ResetColor();
+
+                    Console.Write(", Label Name: ");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine(label.Name);
+                    Console.ResetColor();
+
+                    var templateId = TryGetTemplateIdFromLabel(label);
+                    if (!string.IsNullOrWhiteSpace(templateId))
+                    {
+                        if (templateById.TryGetValue(templateId, out var tmpl))
+                        {
+                            Console.Write("  Template ID: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write(templateId);
+                            Console.ResetColor();
+
+                            Console.Write(", Template Name: ");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(tmpl.Name);
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write("  Template ID: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(templateId);
+                            Console.ResetColor();
+
+                            Console.Write("  Template Name: ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(protectionEngine == null
+                                ? "Unavailable (protection engine not initialized)"
+                                : "Not found in engine cache");
+                            Console.ResetColor();
+                        }
+                    }
+                    else
+                    {
+                        Console.Write("  Protection: ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("None or Custom (no template)");
+                        Console.ResetColor();
+                    }
+
+                    if (label.Children != null && label.Children.Count != 0)
+                    {
+                        foreach (var child in label.Children)
+                        {
+                            Console.Write("  Child Label ID: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write(child.Id);
+                            Console.ResetColor();
+
+                            Console.Write(", Child Label Name: ");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine(child.Name);
+                            Console.ResetColor();
+
+                            var childTemplateId = TryGetTemplateIdFromLabel(child);
+                            if (!string.IsNullOrWhiteSpace(childTemplateId))
+                            {
+                                if (templateById.TryGetValue(childTemplateId, out var ctmpl))
+                                {
+                                    Console.Write("    Template ID: ");
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.Write(childTemplateId);
+                                    Console.ResetColor();
+
+                                    Console.Write(", Template Name: ");
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine(ctmpl.Name);
+                                    Console.ResetColor();
+                                }
+                                else
+                                {
+                                    Console.Write("    Template ID: ");
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine(childTemplateId);
+                                    Console.ResetColor();
+
+                                    Console.Write("    Template Name: ");
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(protectionEngine == null
+                                        ? "Unavailable (protection engine not initialized)"
+                                        : "Not found in engine cache");
+                                    Console.ResetColor();
+                                }
+                            }
+                            else
+                            {
+                                Console.Write("    Protection: ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("None or Custom (no template)");
+                                Console.ResetColor();
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine("\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching labels: {ex.Message}\n");
+            }
+        }
+
+        static void ApplyLabels(IFileEngine fileEngine)
+        {
+            Console.WriteLine("\nEnter the label identifier from the available list:");
+            string labelId = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Enter the file path to label:");
+            string inputFilePath = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Enter the output file path:");
+            string outputFilePath = Console.ReadLine() ?? string.Empty;
+
+            string actualOutputFilePath = outputFilePath;
+            string actualInputFilePath = inputFilePath;
+
+            try
+            {
+                if (!File.Exists(inputFilePath))
+                {
+                    Console.WriteLine("\nFile does not exist. Please try again.\n");
+                    ApplyLabels(fileEngine);
+                }
+
+                if (new FileInfo(inputFilePath).Length == 0)
+                {
+                    Console.WriteLine("\nFile is empty: " + inputFilePath);
+                    ApplyLabels(fileEngine);
+                }
+
+                IFileHandler? handler = Task.Run(async () => await fileEngine.CreateFileHandlerAsync(inputFilePath, actualInputFilePath, true)).Result;
+
+                LabelingOptions labelingOptions = new LabelingOptions()
+                {
+                    AssignmentMethod = AssignmentMethod.Standard,
+                };
+
+                // Set label on input file
+                if (handler != null && fileEngine != null)
+                {
+                    //ensure the file size is within the allowed limits of 6 GB for .txt files.
+                    if (new FileInfo(inputFilePath).Length > 6442450944)
+                    {
+                        Console.WriteLine("\nFile size exceeds the maximum allowed limit for protection.\n");
+                        return;
+                    }
+                    handler.SetLabel(fileEngine.GetLabelById(labelId), labelingOptions, new ProtectionSettings());
+                    var result = Task.Run(async () => await handler.CommitAsync(outputFilePath)).Result;
+                    Console.WriteLine($"\nLabel applied successfully to {outputFilePath}\n");
+                }
+                Console.WriteLine("\n");
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"\nError applying label: {ex.Message}\n");
+            }
+        }
+
+
+
+        private static async Task ApplyProtectionAndPermissionsAsync(IFileEngine fileEngine)
+        {
+            // 1: Get file paths
+            Console.WriteLine("\nEnter the file path to protect:");
+            string inputPath = Console.ReadLine() ?? string.Empty;
+            if (!File.Exists(inputPath))
+            {
+                Console.WriteLine("\nFile not found. Please try again.\n");
+                return;
+            }
+
+            FileInfo fileInfo = new FileInfo(inputPath);
+            if (fileInfo.IsReadOnly)
+                throw new UnauthorizedAccessException("File is read-only. Remove read-only attribute.");
+
+            Console.WriteLine("Enter the output file path for the protected file:");
+            string outputPath = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(outputPath))
+            {
+                Console.WriteLine("Output path is required.\n");
+                return;
+            }
+
+            // 2: Collect user-permissions input
+            var userRightsList = new List<UserRights>();
+            while (true)
+            {
+                Console.WriteLine("\nEnter user email(s) to grant permissions (or press Enter to finish):");
+                string email = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(email)) break; // Done adding users
+
+                Console.WriteLine("Enter rights for this user(Comma-separated: Read, Edit, Print, FullControl, Share):");
+                string rightsInput = Console.ReadLine() ?? string.Empty;
+
+                // Normalize tokens for confirmation message
+                var tokens = rightsInput.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                var rights = new List<string>();
+                foreach (var token in rightsInput.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    switch (token.Trim().ToLower())
+                    {
+                        case "read":
+                        case "view":
+                            rights.Add(Rights.View);
+                            break;
+                        case "edit":
+                            rights.Add(Rights.Edit);
+                            break;
+                        case "print":
+                            rights.Add(Rights.Print);
+                            break;
+                        case "fullcontrol":
+                        case "full control":
+                        case "owner":
+                            rights.Add(Rights.Owner);
+                            break;
+                        case "share":
+                        case "export":
+                            rights.Add(Rights.Export);
+                            break;
+                        default:
+                            Console.WriteLine($"Unrecognized right '{token.Trim()}'. Supported: Read/Edit/Print/FullControl/Share.");
+                            break;
+                    }
+                }
+                if (rights.Count == 0)
+                {
+                    Console.WriteLine("No valid rights selected. Skipping this entry.");
+                    continue;
+                }
+
+                // Confirm and add
+                Console.WriteLine($"Add user '{email}' with rights: {string.Join(", ", tokens)} ? (y/n)");
+                var confirmKey = Console.ReadKey();
+                Console.WriteLine();
+                if (confirmKey.Key != ConsoleKey.Y)
+                {
+                    Console.WriteLine("User not added.");
+                    continue;
+                }
+
+                // Add this user's permissions to the list
+                userRightsList.Add(new UserRights(new List<string> { email }, rights));
+            }
+            if (userRightsList.Count == 0)
+            {
+                Console.WriteLine("No user permissions were provided.\n");
+                return;
+            }
+
+            // Ensure the current user (file protector) has Full Control for future revoke/remove
+            // Assume authDelegate or engine identity has a User principal name we can use.
+            // NOTE: IFileEngine does not expose AuthDelegate; keep variable but avoid compile error.
+            string currentUserEmail = /* ((AuthDelegateImpl)fileEngine.AuthDelegate)?.Email ?? */ string.Empty;
+            if (!string.IsNullOrWhiteSpace(currentUserEmail))
+            {
+                // Give current user owner rights to ensure hey can revoke/remove later.
+                userRightsList.Add(new UserRights(new List<string> { currentUserEmail }, new List<string> { Rights.Owner }));
+            }
+            try
+            {
+                // 3: Create file handler for the input file.
+                IFileHandler handler = await fileEngine.CreateFileHandlerAsync(inputPath, inputPath, false);
+
+                // 4: Apply custom ProtectionDescriptor with user rights
+                var customDescriptor = new ProtectionDescriptor(userRightsList);
+                handler.SetProtection(customDescriptor, new ProtectionSettings());
+
+                // Note: ProtectionSetting can be use to set expiration or offline access if needed.
+                // 5: Commit protected file to output path
+                await handler.CommitAsync(outputPath);
+                Console.WriteLine($"\nFile protected successfully and saved to: {outputPath}\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nError applying protection: {ex.Message}\n");
+            }
+        }
+
+
+        private static async Task RevokeProtectionAsync(IFileEngine fileEngine)
+        {
+            Console.WriteLine("\nEnter the path of the protected file to revoke/remove protection:");
+            string protectedPath = Console.ReadLine() ?? string.Empty;
+            if (!File.Exists(protectedPath))
+            {
+                Console.WriteLine("File not found. Please try again.\n");
+                return;
+            }
+            Console.WriteLine("Enter the output file path for the unprotected file (if removing protection):");
+            string outputPath = Console.ReadLine() ?? string.Empty;
+            if(string.IsNullOrWhiteSpace(outputPath))
+            {
+                Console.WriteLine("Output path is required to save the unprotected file.\n");
+                return;
+            }
+
+            try
+            {
+                IFileHandler handler = await fileEngine.CreateFileHandlerAsync(protectedPath, protectedPath, false);
+                var protection = handler.Protection; // IProtection object if file is protected
+                if(protection == null)
+                {
+                    Console.WriteLine("The file is not protected or has no protection policy.\n");
+                    return;
+                }
+                bool hasOwnerRight = protection.AccessCheck(Rights.Owner);
+                bool hasExportRight = protection.AccessCheck(Rights.Export);
+                if (!(hasOwnerRight || hasExportRight)) { 
+                    Console.WriteLine("You do not have permission to remove or revoke this file's protection (Owner or Export rights required).\n");
+                    return;
+                }
+                
+                // If user is Owner, they can choose to globally revoke content
+                if(hasOwnerRight)
+                {
+                    try
+                    {
+                        await handler.RevokeContentAsync(); // Marks the content as revoked in the protection system.
+                        Console.WriteLine("Content access has been globally revoked. (Users will be unable to consume this content in the future.)");
+                    }
+                    catch (Exception rex)
+                    {
+                        Console.WriteLine($"Warning: Attempt to revoke content failed: {rex.Message}");
+                    }
+                }
+
+                // Remove protection locally and save an unencrypted copy
+                handler.RemoveProtection();
+                await handler.CommitAsync(outputPath);
+                Console.WriteLine($"Protection removed. Unprotected file saved at: {outputPath}\n"); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during revoke/remove operation: {ex.Message}\n");
+            }
+        }
+
+        [SupportedOSPlatform("windows")]
+        private static async Task GetFileStatusAsync(IFileEngine fileEngine)
+        {
+            Console.WriteLine("\nEnter the file path to get the file status:");
+            string inputFilePath = Console.ReadLine() ?? string.Empty;
+            string actualInputFilePath = inputFilePath;
+
+            try
+            {
+                // Check if file exists
+                if (!File.Exists(inputFilePath))
+                {
+                    Console.WriteLine("File does not exists. Please try again.");
+                    await GetFileStatusAsync(fileEngine);
+                    return;
+                }
+
+                // Collect basic file system metadata (owner, times, size, attributes)
+                string fileOwner;
+
+                try
+                {
+                    var fileSecurity = new FileInfo(inputFilePath).GetAccessControl();
+                    var ownerRef = fileSecurity.GetOwner(typeof(System.Security.Principal.NTAccount));
+                    fileOwner = ownerRef?.Value ?? "Unknown";
+                }
+                catch (Exception ownerEx)
+                {
+                    fileOwner = $"Unavailable ({ownerEx.GetType().Name}: {ownerEx.Message})";
+                }
+
+                var basicInfo = new FileInfo(inputFilePath);
+                var createdUtc = basicInfo.CreationTimeUtc;
+                var modifiedUtc = basicInfo.LastWriteTimeUtc;
+                var accessedUtc = basicInfo.LastAccessTimeUtc;
+                var sizeBytes = basicInfo.Length;
+                var attributes = basicInfo.Attributes;
+
+                // Create a file handler for the specified file
+                IFileHandler? handler = await fileEngine.CreateFileHandlerAsync(inputFilePath, actualInputFilePath, true);
+
+                if (handler != null)
+                {
+                    // Create a file stream
+                    using (var fileStream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
+                    {
+                        // Retrieve file status
+                        var fileStatus = FileHandler.GetFileStatus(fileStream, actualInputFilePath, mipContext);
+                        var isLabeled = fileStatus.IsLabeled();
+                        var isProtected = fileStatus.IsProtected();
+                        var fileLabel = handler.Label?.Label?.Name ?? "No Label Found.";
+                        var isFileProtectionAppliedFromLabel = handler.Label?.IsProtectionAppliedFromLabel ?? false;
+                        var fileInfo = new
+                        {
+                            label_Id = handler.Label?.Label?.Id,
+                            label_name = handler.Label?.Label?.Name,
+                            label_description = handler.Label?.Label?.Description,
+                        };
+
+                        // Display file status information
+                        Console.WriteLine("\n*********** File Status **********");
+                        Console.Write($"Is Labeled: ");
+                        Console.ForegroundColor = isLabeled ? ConsoleColor.Green : ConsoleColor.Red; Console.WriteLine(isLabeled);
+                        Console.ResetColor();
+                        Console.Write($"Is Protected: ");
+                        Console.ForegroundColor = isProtected ? ConsoleColor.Green : ConsoleColor.Red; Console.WriteLine(isProtected);
+                        Console.ResetColor();
+                        Console.Write($"isFileProtectionAppliedFromLabel: ");
+                        Console.ForegroundColor = isFileProtectionAppliedFromLabel ? ConsoleColor.Green : ConsoleColor.Red; Console.WriteLine(isFileProtectionAppliedFromLabel);
+                        Console.ResetColor();
+
+                        // File system metadata
+                        Console.WriteLine("File Metadata:");
+                        Console.Write("  - Owner: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(fileOwner);
+                        Console.ResetColor();
+                        Console.Write("  - Size (bytes): ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(sizeBytes);
+                        Console.ResetColor();
+                        Console.Write("  - Created (UTC): ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine(createdUtc);
+                        Console.ResetColor();
+                        Console.Write("  - Modified (UTC): ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine(modifiedUtc);
+                        Console.ResetColor();
+                        Console.Write("  - Last Access (UTC): ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine(accessedUtc);
+                        Console.ResetColor();
+                        Console.Write("  - Attributes: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(attributes);
+                        Console.ResetColor();
+
+                        if (handler.Label != null)
+                        {
+                            Console.WriteLine("Applied Label Info:");
+                            Console.Write("  - Id:          ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($" {fileInfo.label_Id}");
+                            Console.ResetColor();
+                            Console.Write("  - Label Name:  ");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($" {fileInfo.label_name}");
+                            Console.ResetColor();
+                            Console.Write("  - Description: ");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine($" {fileInfo.label_description}");
+                            Console.ResetColor();
+                        }
+
+                        // Protection and User-Defined-Permissions embedded in the publishing license
+                        try
+                        {
+                            var protection = handler.Protection;
+                            if(protection == null)
+                            {
+                                Console.WriteLine("Protection Details:");
+                                Console.WriteLine(" - Not protected (no publishing present");
+                            } else
+                            {
+                                Console.WriteLine("Protection Details:");
+
+                                // Current user effective rights snapshot.
+                                // Uses AccessCheck to verifiy core rights granted to the signed-in identity
+                                var coreRigths = new[]
+                                {
+                                    Rights.View,    // Read/Open
+                                    Rights.Edit,    // Save/Edit
+                                    Rights.Extract, // Copy/Extract
+                                    Rights.Print,   // Print
+                                    Rights.Export,  // Save As/Export
+                                    Rights.Owner    // Full Control
+                                };
+
+                                var granted = new List<string>();
+                                foreach(var r in coreRigths)
+                                {
+                                    if (protection.AccessCheck(r))
+                                        granted.Add(MapFriendlyRight(r));
+                                }
+
+                                Console.WriteLine(" - Current user granted: ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine(granted.Count > 0 ? string.Join(", ", granted) : "None");
+                                Console.ResetColor();
+
+                                // Enumerate UDP (UserRights) if present in the protection descriptor
+                                var descriptor = protection.ProtectionDescriptor;
+                                var udp = descriptor?.UserRights; 
+                                if(udp != null && udp.Count > 0)
+                                {
+                                    Console.WriteLine(" = User-Defined Permissions (UDP):");
+                                    int idx = 1;
+                                    foreach(var userRight in udp)
+                                    {
+                                        var users = userRight.Users != null ? new List<string>(userRight.Users) : new List<string>();
+                                        var rights = userRight.Rights != null ? new List<string>(userRight.Rights) : new List<string>();
+
+                                        // Map raw rights to friendly display names
+                                        var friendlyRights = new List<string>();
+                                        foreach (var right in rights)
+                                            friendlyRights.Add(MapFriendlyRight(right));
+
+                                        // Print each user with their rights; if multiple users share the same set, they are printed out together.
+                                        Console.Write($" [{idx}] Users: ");
+                                        Console.ForegroundColor = ConsoleColor.Cyan;
+                                        Console.WriteLine(users.Count > 0 ? string.Join(", ", users) : "(none)");
+                                        Console.ResetColor();
+                                        Console.Write("       Rights: ");
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine(friendlyRights.Count > 0 ? string.Join(", ", friendlyRights) : "(none)");
+                                        Console.ResetColor();
+                                        idx++;
+                                    }
+                                } else
+                                {
+                                    // Either template-based protection, or descriptor doesnt carry per-user UDP entries
+                                    Console.WriteLine(" - User-Defined Permissions: None (template-based or no per-user entries).");
+                                }
+                            }
+                        } catch (Exception ex)
+                        {
+                            Console.WriteLine($"(Warning) Unable to enumerate protection details: {ex.Message}");
+                        }
+                        Console.WriteLine("**********************************\n");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Failed to create file handler.");
+                    return;
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"\nError retrieving file status: {ex.Message}\n");
+            }
+
+            // Converts SDK right constants to user-friendly labels (e.g: EXTRACT --> COPY).
+            static string MapFriendlyRight(string right) => right switch
+            {
+                var r when r == Rights.View => "Read",
+                var r when r == Rights.Edit => "Edit",
+                var r when r == Rights.Print => "Print",
+                var r when r == Rights.Export => "Export (Save As)",
+                var r when r == Rights.Extract => "Copy",
+                var r when r == Rights.Owner => "Full Control",
+                 _ => right
+
+            }
+        }
+    }
+}
