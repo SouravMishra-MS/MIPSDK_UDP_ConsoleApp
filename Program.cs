@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using Microsoft.InformationProtection.Exceptions;
 
 namespace MIPSDK_UDP_ConsoleApp
 {
@@ -84,7 +85,7 @@ namespace MIPSDK_UDP_ConsoleApp
             Console.WriteLine("\nSelect an option:");
             Console.WriteLine("1. Show Available Labels ");
             Console.WriteLine("2. Apply Labels");
-            Console.WriteLine("3. Apply Protection (Custom Permissions)");
+            Console.WriteLine("3. Manage Protection (Add/Update/Delete Permissions)");
             Console.WriteLine("4. Revoke Protection");
             Console.WriteLine("5. Get File Status");
             Console.WriteLine("Enter your choice: ");
@@ -353,9 +354,92 @@ namespace MIPSDK_UDP_ConsoleApp
                         Console.WriteLine("\nFile size exceeds the maximum allowed limit for protection.\n");
                         return;
                     }
-                    handler.SetLabel(fileEngine.GetLabelById(labelId), labelingOptions, new ProtectionSettings());
-                    var result = Task.Run(async () => await handler.CommitAsync(outputFilePath)).Result;
-                    Console.WriteLine($"\nLabel applied successfully to {outputFilePath}\n");
+
+                    // Build ad-hoc protection rights: default current user as Owner, plus any additional users/rights entered.
+                    var adhocRights = new List<UserRights>();
+                    if (!string.IsNullOrWhiteSpace(currentUserUpn))
+                    {
+                        adhocRights.Add(new UserRights(new List<string> { currentUserUpn }, new List<string> { Rights.Owner }));
+                    }
+
+                    // Optional: collect extra users/rights for ad-hoc protection when required by the label
+                    while (true)
+                    {
+                        Console.WriteLine("Add user for ad-hoc protection? (press Enter to skip; type email then Enter to add)");
+                        var extraUser = Console.ReadLine() ?? string.Empty;
+                        if (string.IsNullOrWhiteSpace(extraUser)) break;
+
+                        Console.WriteLine("Enter rights for this user (Comma-separated: Read, Edit, Print, FullControl, Share):");
+                        var rightsInput = Console.ReadLine() ?? string.Empty;
+                        var rightsList = new List<string>();
+                        foreach (var token in rightsInput.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            switch (token.Trim().ToLowerInvariant())
+                            {
+                                case "read":
+                                case "view":
+                                    rightsList.Add(Rights.View);
+                                    break;
+                                case "edit":
+                                    rightsList.Add(Rights.Edit);
+                                    break;
+                                case "print":
+                                    rightsList.Add(Rights.Print);
+                                    break;
+                                case "fullcontrol":
+                                case "full control":
+                                case "owner":
+                                    rightsList.Add(Rights.Owner);
+                                    break;
+                                case "share":
+                                case "export":
+                                    rightsList.Add(Rights.Export);
+                                    break;
+                                default:
+                                    Console.WriteLine($"Unrecognized right '{token.Trim()}'. Supported: Read/Edit/Print/FullControl/Share.");
+                                    break;
+                            }
+                        }
+
+                        if (rightsList.Count == 0)
+                        {
+                            Console.WriteLine("No valid rights provided. Skipping this user entry.");
+                            continue;
+                        }
+
+                        adhocRights.Add(new UserRights(new List<string> { extraUser }, rightsList));
+                    }
+
+                    var adhocDescriptor = adhocRights.Count > 0 ? new ProtectionDescriptor(adhocRights) : null;
+
+                    try
+                    {
+                        // First attempt: apply label without forcing ad-hoc protection
+                        handler.SetLabel(fileEngine.GetLabelById(labelId), labelingOptions, new ProtectionSettings());
+                        var result = Task.Run(async () => await handler.CommitAsync(outputFilePath)).Result;
+                        Console.WriteLine($"\nLabel applied successfully to {outputFilePath}\n");
+                    }
+                    catch (AdhocProtectionRequiredException)
+                    {
+                        if (adhocDescriptor == null)
+                        {
+                            Console.WriteLine("\nThis label requires ad-hoc protection, but no users/rights were provided to build a protection descriptor.\n");
+                            return;
+                        }
+
+                        try
+                        {
+                            // Set ad-hoc protection (current user as owner + any additional entries) then apply the label
+                            handler.SetProtection(adhocDescriptor, new ProtectionSettings());
+                            handler.SetLabel(fileEngine.GetLabelById(labelId), labelingOptions, new ProtectionSettings());
+                            var result = Task.Run(async () => await handler.CommitAsync(outputFilePath)).Result;
+                            Console.WriteLine($"\nLabel applied successfully to {outputFilePath}\n");
+                        }
+                        catch (Exception retryEx)
+                        {
+                            Console.WriteLine($"\nError applying ad-hoc protection for label: {retryEx.Message}\n");
+                        }
+                    }
                 }
                 Console.WriteLine("\n");
             }
@@ -370,7 +454,7 @@ namespace MIPSDK_UDP_ConsoleApp
         private static async Task ApplyProtectionAndPermissionsAsync(IFileEngine fileEngine)
         {
             // 1: Get file paths
-            Console.WriteLine("\nEnter the file path to protect:");
+            Console.WriteLine("\nEnter the file path to manage protection:");
             string inputPath = Console.ReadLine() ?? string.Empty;
             if (!File.Exists(inputPath))
             {
@@ -382,7 +466,7 @@ namespace MIPSDK_UDP_ConsoleApp
             if (fileInfo.IsReadOnly)
                 throw new UnauthorizedAccessException("File is read-only. Remove read-only attribute.");
 
-            Console.WriteLine("Enter the output file path for the protected file:");
+            Console.WriteLine("Enter the output file path for the updated protected file:");
             string outputPath = Console.ReadLine() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(outputPath))
             {
@@ -390,24 +474,13 @@ namespace MIPSDK_UDP_ConsoleApp
                 return;
             }
 
-            // 2: Collect user-permissions input
-            var userRightsList = new List<UserRights>();
-            while (true)
+            // Helper to parse rights input
+            static List<string> ParseRights(string rightsInput)
             {
-                Console.WriteLine("\nEnter user email(s) to grant permissions (or press Enter to finish):");
-                string email = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(email)) break; // Done adding users
-
-                Console.WriteLine("Enter rights for this user(Comma-separated: Read, Edit, Print, FullControl, Share):");
-                string rightsInput = Console.ReadLine() ?? string.Empty;
-
-                // Normalize tokens for confirmation message
-                var tokens = rightsInput.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
                 var rights = new List<string>();
                 foreach (var token in rightsInput.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    switch (token.Trim().ToLower())
+                    switch (token.Trim().ToLowerInvariant())
                     {
                         case "read":
                         case "view":
@@ -433,57 +506,122 @@ namespace MIPSDK_UDP_ConsoleApp
                             break;
                     }
                 }
-                if (rights.Count == 0)
-                {
-                    Console.WriteLine("No valid rights selected. Skipping this entry.");
-                    continue;
-                }
-
-                // Confirm and add
-                Console.WriteLine($"Add user '{email}' with rights: {string.Join(", ", tokens)} ? (y/n)");
-                var confirmKey = Console.ReadKey();
-                Console.WriteLine();
-                if (confirmKey.Key != ConsoleKey.Y)
-                {
-                    Console.WriteLine("User not added.");
-                    continue;
-                }
-
-                // Add this user's permissions to the list
-                userRightsList.Add(new UserRights(new List<string> { email }, rights));
-            }
-            if (userRightsList.Count == 0)
-            {
-                Console.WriteLine("No user permissions were provided.\n");
-                return;
+                return rights;
             }
 
-            // Ensure the current user (file protector) has Full Control for future revoke/remove
-            // Assume authDelegate or engine identity has a User principal name we can use.
-            // NOTE: IFileEngine does not expose AuthDelegate; keep variable but avoid compile error.
-            string currentUserEmail = /* ((AuthDelegateImpl)fileEngine.AuthDelegate)?.Email ?? */ string.Empty;
-            if (!string.IsNullOrWhiteSpace(currentUserEmail))
-            {
-                // Give current user owner rights to ensure hey can revoke/remove later.
-                userRightsList.Add(new UserRights(new List<string> { currentUserEmail }, new List<string> { Rights.Owner }));
-            }
             try
             {
-                // 3: Create file handler for the input file.
+                // 2: Create file handler for the input file.
                 IFileHandler handler = await fileEngine.CreateFileHandlerAsync(inputPath, inputPath, false);
 
-                // 4: Apply custom ProtectionDescriptor with user rights
+                // 3: Load existing rights (if any)
+                var userRightsList = new List<UserRights>();
+                var existing = handler.Protection?.ProtectionDescriptor?.UserRights;
+                if (existing != null && existing.Count > 0)
+                {
+                    Console.WriteLine("\nExisting user-rights:");
+                    int idx = 1;
+                    foreach (var ur in existing)
+                    {
+                        var usersCopy = ur.Users != null ? new List<string>(ur.Users) : new List<string>();
+                        var rightsCopy = ur.Rights != null ? new List<string>(ur.Rights) : new List<string>();
+                        Console.WriteLine($" [{idx}] Users: { (usersCopy.Count > 0 ? string.Join(", ", usersCopy) : "(none)") }");
+                        Console.WriteLine($"     Rights: { (rightsCopy.Count > 0 ? string.Join(", ", rightsCopy.Select(MapFriendlyRight)) : "(none)") }");
+                        userRightsList.Add(new UserRights(usersCopy, rightsCopy));
+                        idx++;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nNo existing user-rights found (file may be unprotected or template-based).");
+                }
+
+                // 4: Ensure current user owner rights are present (or add later on save)
+                bool HasOwnerFor(string user, List<UserRights> list)
+                {
+                    foreach (var ur in list)
+                    {
+                        if (ur.Users != null && ur.Users.Any(u => u.Equals(user, StringComparison.OrdinalIgnoreCase)) &&
+                            ur.Rights != null && ur.Rights.Any(r => r.Equals(Rights.Owner, StringComparison.Ordinal)))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // 5: Manage rights loop (add/update/delete)
+                while (true)
+                {
+                    Console.WriteLine("\nChoose action: (a) Add/Update user rights, (d) Delete user, (enter) Finish:");
+                    var action = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(action)) break;
+
+                    if (action.Equals("a", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.WriteLine("Enter user email:");
+                        var email = Console.ReadLine() ?? string.Empty;
+                        if (string.IsNullOrWhiteSpace(email))
+                        {
+                            Console.WriteLine("Email is required.");
+                            continue;
+                        }
+
+                        Console.WriteLine("Enter rights for this user (Comma-separated: Read, Edit, Print, FullControl, Share):");
+                        var rightsInput = Console.ReadLine() ?? string.Empty;
+                        var rights = ParseRights(rightsInput);
+                        if (rights.Count == 0)
+                        {
+                            Console.WriteLine("No valid rights provided.");
+                            continue;
+                        }
+
+                        // Remove existing entries for this user (case-insensitive)
+                        userRightsList.RemoveAll(ur => ur.Users != null && ur.Users.Any(u => u.Equals(email, StringComparison.OrdinalIgnoreCase)));
+                        userRightsList.Add(new UserRights(new List<string> { email }, rights));
+                        Console.WriteLine($"User '{email}' set with rights: {string.Join(", ", rights.Select(MapFriendlyRight))}");
+                    }
+                    else if (action.Equals("d", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.WriteLine("Enter user email to delete:");
+                        var email = Console.ReadLine() ?? string.Empty;
+                        if (string.IsNullOrWhiteSpace(email))
+                        {
+                            Console.WriteLine("Email is required.");
+                            continue;
+                        }
+
+                        int removed = userRightsList.RemoveAll(ur => ur.Users != null && ur.Users.Any(u => u.Equals(email, StringComparison.OrdinalIgnoreCase)));
+                        Console.WriteLine(removed > 0 ? $"Removed user '{email}'" : $"User '{email}' not found.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unrecognized action. Use 'a', 'd', or Enter to finish.");
+                    }
+                }
+
+                // 6: Ensure current user (if available) has Owner rights
+                if (!string.IsNullOrWhiteSpace(currentUserUpn) && !HasOwnerFor(currentUserUpn, userRightsList))
+                {
+                    userRightsList.Add(new UserRights(new List<string> { currentUserUpn }, new List<string> { Rights.Owner }));
+                    Console.WriteLine($"Ensured current user '{currentUserUpn}' has Owner rights.");
+                }
+
+                if (userRightsList.Count == 0)
+                {
+                    Console.WriteLine("No user permissions were provided. Aborting.");
+                    return;
+                }
+
+                // 7: Apply protection with updated rights
                 var customDescriptor = new ProtectionDescriptor(userRightsList);
                 handler.SetProtection(customDescriptor, new ProtectionSettings());
-
-                // Note: ProtectionSetting can be use to set expiration or offline access if needed.
-                // 5: Commit protected file to output path
                 await handler.CommitAsync(outputPath);
-                Console.WriteLine($"\nFile protected successfully and saved to: {outputPath}\n");
+                Console.WriteLine($"\nFile protection updated and saved to: {outputPath}\n");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError applying protection: {ex.Message}\n");
+                Console.WriteLine($"\nError managing protection: {ex.Message}\n");
             }
         }
 
@@ -760,17 +898,18 @@ namespace MIPSDK_UDP_ConsoleApp
                 Console.WriteLine($"\nError retrieving file status: {ex.Message}\n");
             }
 
-            // Converts SDK right constants to user-friendly labels (e.g., EXTRACT -> COPY).
-            static string MapFriendlyRight(string right) => right switch
-            {
-                var r when r == Rights.View => "Read",
-                var r when r == Rights.Edit => "Edit",
-                var r when r == Rights.Print => "Print",
-                var r when r == Rights.Export => "Export (Save As)",
-                var r when r == Rights.Extract => "Copy",
-                var r when r == Rights.Owner => "Full Control",
-                _                            => right
-            };
         }
+
+        // Converts SDK right constants to user-friendly labels (e.g., EXTRACT -> COPY).
+        private static string MapFriendlyRight(string right) => right switch
+        {
+            var r when r == Rights.View => "Read",
+            var r when r == Rights.Edit => "Edit",
+            var r when r == Rights.Print => "Print",
+            var r when r == Rights.Export => "Export (Save As)",
+            var r when r == Rights.Extract => "Copy",
+            var r when r == Rights.Owner => "Full Control",
+            _                            => right
+        };
     }
 }

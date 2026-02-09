@@ -3,32 +3,28 @@
   "WorkspaceRootPath": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\app.config||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:app.config||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
-      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\app.config||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:app.config||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\services\\authdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:services\\authdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\mipsdk_udp_consoleapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:mipsdk_udp_consoleapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\services\\consentdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:services\\consentdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\services\\consentdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:services\\consentdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|d:\\application_samples\\mip_sdk_samples\\mipsdk_udp_consoleapp\\services\\authdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{928BD2BD-B4E4-4D9B-970D-51326DE425DB}|MIPSDK_UDP_ConsoleApp.csproj|solutionrelative:services\\authdelegateimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,78 +34,66 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "README.md",
               "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\README.md",
               "RelativeDocumentMoniker": "README.md",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\README.md",
               "RelativeToolTip": "README.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-11-30T09:08:00.661Z"
+              "WhenOpened": "2025-11-30T09:08:00.661Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "ConsentDelegateImpl.cs",
               "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\ConsentDelegateImpl.cs",
               "RelativeDocumentMoniker": "Services\\ConsentDelegateImpl.cs",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\ConsentDelegateImpl.cs",
               "RelativeToolTip": "Services\\ConsentDelegateImpl.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-28T15:06:47.687Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Services\\AuthService.cs",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\AuthService.cs",
               "RelativeToolTip": "Services\\AuthService.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAkwDsAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwBoAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-28T15:06:27.798Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "AuthDelegateImpl.cs",
               "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\AuthDelegateImpl.cs",
               "RelativeDocumentMoniker": "Services\\AuthDelegateImpl.cs",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Services\\AuthDelegateImpl.cs",
               "RelativeToolTip": "Services\\AuthDelegateImpl.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAuwBwAAABTAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-28T15:06:12.348Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MIPSDK_UDP_ConsoleApp.csproj",
-              "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\MIPSDK_UDP_ConsoleApp.csproj",
-              "RelativeDocumentMoniker": "MIPSDK_UDP_ConsoleApp.csproj",
-              "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\MIPSDK_UDP_ConsoleApp.csproj",
-              "RelativeToolTip": "MIPSDK_UDP_ConsoleApp.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-28T15:05:46.401Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "App.Config",
               "DocumentMoniker": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\App.Config",
               "RelativeDocumentMoniker": "App.Config",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\App.Config",
               "RelativeToolTip": "App.Config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
               "WhenOpened": "2025-11-28T15:05:14.734Z",
               "EditorCaption": ""
@@ -122,9 +106,10 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\Application_Samples\\MIP_SDK_Samples\\MIPSDK_UDP_ConsoleApp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAMQCAAAAAAAAAAAEwNwCAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAawKgAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T14:57:06.268Z"
+              "WhenOpened": "2025-11-28T14:57:06.268Z",
+              "EditorCaption": ""
             }
           ]
         }

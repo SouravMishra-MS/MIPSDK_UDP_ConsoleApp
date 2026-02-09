@@ -1,0 +1,71 @@
+## Ignore Visual Studio and build outputs
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build outputs
+bin/
+obj/
+out/
+artifacts/
+
+## ASP.NET / .NET
+project.lock.json
+project.fragment.lock.json
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+*.log
+*.tlog
+*.svclog
+TestResult*/
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+## NuGet
+*.nupkg
+.nuget/packages/
+packages/
+**/packages/*
+!**/packages/build/
+
+## Azure
+PublishProfiles/
+
+## Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+.idea/
+
+## IIS Express
+.vs/Config/applicationhost.config
+
+## Logs and dumps
+*.pidb
+*.svclog
+*.sln.ide
+*.stackdump
+*.dmp
+
+## Other caches
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Generated files
+wwwroot/lib/
+node_modules/
+dist/
+bundle*
+
+## Temp
+*.tmp
+*.temp
+~$*
+

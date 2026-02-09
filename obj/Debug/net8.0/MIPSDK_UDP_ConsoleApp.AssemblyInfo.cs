@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MIPSDK_UDP_ConsoleApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d1e25bc6a12ca50e9d3abbfd9b2fcbf82d5c4cd")]
 [assembly: System.Reflection.AssemblyProductAttribute("MIPSDK_UDP_ConsoleApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MIPSDK_UDP_ConsoleApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -81,3 +81,4 @@ D:\Application_Samples\MIP_SDK_Samples\MIPSDK_UDP_ConsoleApp\obj\Debug\net8.0\re
 D:\Application_Samples\MIP_SDK_Samples\MIPSDK_UDP_ConsoleApp\obj\Debug\net8.0\MIPSDK_UDP_ConsoleApp.pdb
 D:\Application_Samples\MIP_SDK_Samples\MIPSDK_UDP_ConsoleApp\obj\Debug\net8.0\MIPSDK_UDP_ConsoleApp.genruntimeconfig.cache
 D:\Application_Samples\MIP_SDK_Samples\MIPSDK_UDP_ConsoleApp\obj\Debug\net8.0\ref\MIPSDK_UDP_ConsoleApp.dll
+D:\Application_Samples\MIP_SDK_Samples\MIPSDK_UDP_ConsoleApp\obj\Debug\net8.0\MIPSDK_UDP_ConsoleApp.sourcelink.json

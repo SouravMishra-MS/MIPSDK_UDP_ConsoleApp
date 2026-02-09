@@ -8,6 +8,8 @@ A .NET 8 C# console application demonstrating Microsoft Information Protection (
 - MIP SDK initialization (File + Protection engines)
 - Enumerate sensitivity labels and associated protection templates
 - Apply labels to files (with validation and size checks)
+- Apply labels that require ad-hoc protection: signed-in user is auto-added as Owner, and you can enter additional users/rights on prompt
+- Manage protection (add, update, delete user permissions) even on already-labeled files
 - Apply custom Rights-managed protection with per-user rights (View, Edit, Print, Export/Share, Owner)
 - Revoke previously protected content (owner/export rights required)
 - Remove protection and save an unencrypted copy
@@ -54,10 +56,15 @@ Menu options:
 ```
 1. Show Available Labels
 2. Apply Labels
-3. Apply Protection (Custom Permissions)
+3. Manage Protection (Add/Update/Delete Permissions)
 4. Revoke Protection
 5. Get File Status
 ```
+
+### Applying labels that require ad-hoc protection
+- When applying such a label, the app automatically grants the signed-in user `Owner` rights in the protection descriptor.
+- You will be prompted to optionally add additional users and their rights (Read, Edit, Print, FullControl, Share/Export).
+- The app then sets ad-hoc protection and applies the label, satisfying labels that mandate protection.
 
 ## Security Considerations
 - Never hardcode secrets (client IDs excepted; no client secret in public/native flow)
